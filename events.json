@@ -1,0 +1,98 @@
+[
+  {
+      "coords": [55.751244, 37.618423],
+      "year": "2004",
+      "date": "2004-09-15",
+      "title_en": "Release of 'Kacheli'",
+      "description_en": "This album revolutionized the scene with its experimental beats and lyrical depth.",
+      "title_ru": "Релиз 'Качели'",
+      "description_ru": "Этот альбом произвел революцию на сцене благодаря экспериментальным битам и лирической глубине.",
+      "album_cover": "https://example.com/kacheli.jpg"
+  },
+  {
+      "coords": [59.934280, 30.335099],
+      "year": "2008",
+      "date": "2008-05-10",
+      "title_en": "Battle at Versus",
+      "description_en": "The Versus battle drew millions of viewers and had a significant cultural impact.",
+      "title_ru": "Баттл на Versus",
+      "description_ru": "Баттл на Versus привлек миллионы зрителей и оказал значительное культурное влияние."
+  },
+  {
+      "coords": [55.755826, 37.617300],
+      "year": "2010",
+      "date": "2010-11-20",
+      "title_en": "Guf's Album Release 'Дом'",
+      "description_en": "Guf's highly anticipated album marked a turning point for Russian hip hop.",
+      "title_ru": "Релиз альбома Гуфа 'Дом'",
+      "description_ru": "Ожидаемый альбом Гуфа стал поворотным моментом для русского хип-хопа.",
+      "album_cover": "https://example.com/dom.jpg"
+  },
+  {
+      "coords": [55.751244, 37.618423],
+      "year": "2012",
+      "date": "2012-08-25",
+      "title_en": "Oxxxymiron's Debut Album 'Вечный Жид'",
+      "description_en": "Oxxxymiron's debut album brought a new level of complexity to Russian rap lyrics.",
+      "title_ru": "Дебютный альбом Оксимирона 'Вечный Жид'",
+      "description_ru": "Дебютный альбом Оксимирона внес новый уровень сложности в тексты русского рэпа.",
+      "album_cover": "https://example.com/vechny-zhid.jpg"
+  },
+  {
+      "coords": [59.934280, 30.335099],
+      "year": "2013",
+      "date": "2013-03-30",
+      "title_en": "First Versus Battle Between Oxxxymiron and Johnyboy",
+      "description_en": "The legendary battle between Oxxxymiron and Johnyboy set viewership records.",
+      "title_ru": "Первый баттл Versus между Оксимироном и Джонибоем",
+      "description_ru": "Легендарный баттл между Оксимироном и Джонибоем установил рекорды по просмотрам."
+  },
+  {
+      "coords": [55.751244, 37.618423],
+      "year": "2015",
+      "date": "2015-06-10",
+      "title_en": "Release of 'Горгород' by Oxxxymiron",
+      "description_en": "The concept album 'Gorgorod' received widespread acclaim and is regarded as a masterpiece.",
+      "title_ru": "Релиз 'Горгород' Оксимирона",
+      "description_ru": "Концептуальный альбом 'Горгород' получил широкое признание и считается шедевром.",
+      "album_cover": "https://example.com/gorgorod.jpg"
+  },
+  {
+      "coords": [56.838926, 60.605703],
+      "year": "2016",
+      "date": "2016-04-20",
+      "title_en": "Scriptonite's Album 'Праздник на улице 36'",
+      "description_en": "Scriptonite's unique style brought a fresh sound to Russian hip hop.",
+      "title_ru": "Альбом Скриптонита 'Праздник на улице 36'",
+      "description_ru": "Уникальный стиль Скриптонита привнес свежий звук в русский хип-хоп.",
+      "album_cover": "https://example.com/prazdnik.jpg"
+  },
+  {
+      "coords": [55.755826, 37.617300],
+      "year": "2017",
+      "date": "2017-09-15",
+      "title_en": "ST vs. Oxxxymiron Versus Battle",
+      "description_en": "The highly anticipated battle drew significant attention and showcased lyrical prowess.",
+      "title_ru": "Баттл ST против Оксимирона на Versus",
+      "description_ru": "Ожидаемый баттл привлек большое внимание и продемонстрировал лирическое мастерство."
+  },
+  {
+      "coords": [55.751244, 37.618423],
+      "year": "2019",
+      "date": "2019-02-10",
+      "title_en": "Morgenshtern's Breakthrough with 'Новый Мерин'",
+      "description_en": "Morgenshtern's viral song gained popularity across Russia, defining a new trend.",
+      "title_ru": "Прорыв Моргенштерна с 'Новый Мерин'",
+      "description_ru": "Вирусная песня Моргенштерна стала популярной по всей России, определив новый тренд.",
+      "album_cover": "https://example.com/novy-merin.jpg"
+  },
+  {
+      "coords": [59.934280, 30.335099],
+      "year": "2021",
+      "date": "2021-05-25",
+      "title_en": "Basta's Concert at Gazprom Arena",
+      "description_en": "Basta held one of the biggest concerts in Russian hip hop history, gathering over 40,000 people.",
+      "title_ru": "Концерт Басты на Газпром Арене",
+      "description_ru": "Баста провел один из крупнейших концертов в истории русского хип-хопа, собрав более 40 000 человек."
+  }
+]

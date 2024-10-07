@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Russian-Speaking Hip Hop Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            background-color: #000;
+            color: #ffcc00;
+            font-family: Arial, sans-serif;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            border: 1px solid #ffcc00;
+        }
+
+        .timeline {
+            margin: 20px;
+            background: #111;
+            padding: 20px;
+            border: 1px solid #ffcc00;
+            color: #ffcc00;
+            position: relative;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: absolute;
+            left: 100px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #ffcc00;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #111;
+            padding: 10px;
+            border-bottom: 2px solid #ffcc00;
+        }
+
+        .nav-bar a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .language-switch {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .language-switch button {
+            background: #ffcc00;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .language-switch button:hover {
+            background: #ff9900;
+        }
+
+        .album-cover {
+            width: 100px;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Hide the default Leaflet attribution */
+        .leaflet-control-attribution {
+          display: none;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="nav-bar">
+        <a href="#" onclick="showMap()">Interactive Map</a>
+        <a href="#" onclick="showTimeline()">Chronological Timeline</a>
+    </div>
+
+    <div class="language-switch">
+        <button onclick="switchLanguage('en')">English</button>
+        <button onclick="switchLanguage('ru')">Russian</button>
+    </div>
+
+    <div id="content">
+        <div id="map"></div>
+    </div>
+
+    <div id="timeline" class="timeline" style="display: none;">
+        <div class="timeline-line"></div>
+        <!-- Timeline items will be added dynamically from JSON -->
+    </div>
+
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([55.751244, 37.618423], 5); // Moscow as a central point
+
+        // Set dark theme tile layer for the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Customize the style of the map to be dark
+        var tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+        });
+        tileLayer.addTo(map);
+
+        // Add pins to the map with notable releases and events from JSON file
+        var events;
+
+        fetch('events.json')
+            .then(response => response.json())
+            .then(data => {
+                events = data;
+                updateMapAndTimeline();
+            });
+
+        function updateMapAndTimeline() {
+            // Clear existing markers from the map
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            // Add markers to the map
+            events.forEach(function(event) {
+                var popupContent = '<b>' + (event.currentTitle || event.title_en) + '</b><br>' +
+                                   event.date + '<br>' + (event.currentDescription || event.description_en);
+                if (event.album_cover) {
+                    popupContent += '<br><img src="' + event.album_cover + '" alt="Album Cover" class="album-cover">';
+                }
+                L.marker(event.coords).addTo(map).bindPopup(popupContent);
+            });
+
+            // Update the timeline
+            const timelineElement = document.getElementById('timeline');
+            timelineElement.innerHTML = '<div class="timeline-line"></div>';
+            events.forEach(function(event, index) {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.style.top = (20 + index * 100) + 'px';
+                timelineItem.innerHTML = '<h3>' + event.year + ' - ' + (event.currentTitle || event.title_en) + '</h3>' +
+                                         '<p>' + event.date + '<br>' + (event.currentDescription || event.description_en) + '</p>';
+                if (event.album_cover) {
+                    timelineItem.innerHTML += '<br><img src="' + event.album_cover + '" alt="Album Cover" class="album-cover">';
+                }
+                timelineElement.appendChild(timelineItem);
+            });
+        }
+
+        function showMap() {
+            document.getElementById("map").style.display = "block";
+            document.getElementById("timeline").style.display = "none";
+        }
+
+        function showTimeline() {
+            document.getElementById("map").style.display = "none";
+            document.getElementById("timeline").style.display = "block";
+        }
+
+        function switchLanguage(lang) {
+            if (lang === 'ru') {
+                document.documentElement.lang = 'ru';
+                // Update event titles and descriptions to Russian
+                events.forEach(function(event) {
+                    event.currentTitle = event.title_ru;
+                    event.currentDescription = event.description_ru;
+                });
+            } else {
+                document.documentElement.lang = 'en';
+                // Update event titles and descriptions to English
+                events.forEach(function(event) {
+                    event.currentTitle = event.title_en;
+                    event.currentDescription = event.description_en;
+                });
+            }
+
+            // Refresh the map pins and timeline
+            updateMapAndTimeline();
+        }
+    </script>
+</body>
+</html>
