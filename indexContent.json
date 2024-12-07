@@ -1,0 +1,15 @@
+{
+  "title": {
+      "en": "Russian-Speaking Hip Hop Map",
+      "ru": "Карта русскоязычного хип-хопа"
+  },
+  "interactiveMapLink": {
+      "en": "Interactive Map",
+      "ru": "Интерактивная карта"
+  },
+  "timelineTitle": {
+      "en": "Chronological Timeline",
+      "ru": "Хронологическая шкала"
+  }
+
+}
