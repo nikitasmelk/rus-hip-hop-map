@@ -1,37 +1,53 @@
+// window.onSpotifyIframeApiReady = (IFrameAPI) => {
+//     const element = document.getElementById('embed-iframe');
+//     const options = {
+//         uri: 'https://open.spotify.com/track/0BmBWpZ1obsPKGCT8azVAs?si=968195d8892d44a6'
+//       };
+//     const callback = (EmbedController) => {};
+//     IFrameAPI.createController(element, options, callback);
+//   };
+
+// let spotify = document.getElementsByClassName("spotify")[0].src ="https://open.spotify.com/track/1xIDRR91yrYa3LvYWkOxxz?si=10891633c8e84048";
+// console.log(spotify);
 
 
 
-  // Function to check if the popup has been closed before
-function isPopupClosed() {
-    return localStorage.getItem('popupClosed') === 'true';
-  }
+
+
+
+
+
+//   // Function to check if the popup has been closed before
+// function isPopupClosed() {
+//     return localStorage.getItem('popupClosed') === 'true';
+//   }
   
-  // Function to show the popup
-  function showPopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.add('show');
-  }
+//   // Function to show the popup
+//   function showPopup() {
+//     const popup = document.getElementById('popup');
+//     popup.classList.add('show');
+//   }
   
-  // Function to hide the popup and remember the action
-  function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.remove('show');
-    localStorage.setItem('popupClosed', 'true'); // Remember that the popup has been closed
-  }
+//   // Function to hide the popup and remember the action
+//   function closePopup() {
+//     const popup = document.getElementById('popup');
+//     popup.classList.remove('show');
+//     localStorage.setItem('popupClosed', 'true'); // Remember that the popup has been closed
+//   }
   
-  // Event listener for the close button
-  document.querySelector('.close-button').addEventListener('click', closePopup);
+//   // Event listener for the close button
+//   document.querySelector('.close-button').addEventListener('click', closePopup);
   
-  // Show the popup on page load if it hasn't been closed before
-  window.addEventListener('load', () => {
+//   // Show the popup on page load if it hasn't been closed before
+//   window.addEventListener('load', () => {
 
-    // FOR TESTING PURPOSES ONLY
-    // localStorage.setItem('popupClosed', 'false');
+//     // FOR TESTING PURPOSES ONLY
+//     // localStorage.setItem('popupClosed', 'false');
 
-    if (!isPopupClosed()) {
-      showPopup();
-    }
-  });
+//     if (!isPopupClosed()) {
+//       showPopup();
+//     }
+//   });
   
   
 
@@ -54,14 +70,14 @@ var markers = [];
 
 var Marker1 = L.icon({
     iconUrl: 'mrkr1.png',
-    iconSize: [32, 32], // size of the icon
+    iconSize: [48, 48], // size of the icon
     iconAnchor: [16, 32], // point of the icon which will correspond to marker's location
     popupAnchor: [0, -32] // point from which the popup should open relative to the iconAnchor
   });
 
   var Marker2 = L.icon({
     iconUrl: 'mrkr2.png',
-    iconSize: [32, 32], // size of the icon
+    iconSize: [48, 48], // size of the icon
     iconAnchor: [16, 32], // point of the icon which will correspond to marker's location
     popupAnchor: [0, -32] // point from which the popup should open relative to the iconAnchor
   });
@@ -177,13 +193,19 @@ function updateMapAndTimeline() {
 
             var event = events[index];
 
-            var popupContent = '<b>' + eval(`event.title_${currentLanguage}`) + '</b><br>' +
-            event.date + '<br>' + eval(`event.description_${currentLanguage}`);
+            var popupContent = '<div class="popup-flexbox"><div class="popup-left"> <div class="popup-title">' + eval(`event.title_${currentLanguage}`) + '</div> <div class="popup-date">' +
+            event.date + '</div> <div class="popup-desc">' + eval(`event.description_${currentLanguage}`) + '</div> </div>';
 
             // console.log(popupContent)
 
             if (event.album_cover) {
-            popupContent += '<br><img src="' + event.album_cover + '" alt="Album Cover" class="album-cover">';
+            popupContent += ' <div class="popup-right"><img src="' + event.album_cover + '" class="popup-image"></div>';
+            }
+
+            popupContent += '</div>';
+
+            if(event.source){
+                popupContent += ' <div class="popup-source"> <a  href="' + event.source[1] + '" target="_blank">' + event.source[0] + '</a></div>';
             }
 
         
@@ -233,19 +255,19 @@ function updateMapAndTimeline() {
     // map.addLayer(Markers);
 
     // Update the timeline
-    const timelineElement = document.getElementById('timeline');
-    timelineElement.innerHTML = '<div class="timeline-line"></div>';
-    events.forEach(function(event, index) {
-        const timelineItem = document.createElement('div');
-        timelineItem.className = 'timeline-item';
-        timelineItem.style.top = (20 + index * 100) + 'px';
-        timelineItem.innerHTML = '<h3>' + event.year + ' - ' + (event.currentTitle || event.title_en) + '</h3>' +
-                                 '<p>' + event.date + '<br>' + (event.currentDescription || event.description_en) + '</p>';
-        if (event.album_cover) {
-            timelineItem.innerHTML += '<br><img src="' + event.album_cover + '" alt="Album Cover" class="album-cover">';
-        }
-        timelineElement.appendChild(timelineItem);
-    });
+    // const timelineElement = document.getElementById('timeline');
+    // timelineElement.innerHTML = '<div class="timeline-line"></div>';
+    // events.forEach(function(event, index) {
+    //     const timelineItem = document.createElement('div');
+    //     timelineItem.className = 'timeline-item';
+    //     timelineItem.style.top = (20 + index * 100) + 'px';
+    //     timelineItem.innerHTML = '<h3>' + event.year + ' - ' + (event.currentTitle || event.title_en) + '</h3>' +
+    //                              '<p>' + event.date + '<br>' + (event.currentDescription || event.description_en) + '</p>';
+    //     if (event.album_cover) {
+    //         timelineItem.innerHTML += '<br><img src="' + event.album_cover + '" alt="Album Cover" class="album-cover">';
+    //     }
+    //     timelineElement.appendChild(timelineItem);
+    // });
 }
 
 

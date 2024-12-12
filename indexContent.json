@@ -1,15 +1,23 @@
 {
   "title": {
-      "en": "Russian-Speaking Hip Hop Map",
-      "ru": "Карта русскоязычного хип-хопа"
-  },
-  "interactiveMapLink": {
-      "en": "Interactive Map",
-      "ru": "Интерактивная карта"
+      "en": "Hip Hop Map",
+      "ru": "Карта хип-хопа"
   },
   "timelineTitle": {
-      "en": "Chronological Timeline",
-      "ru": "Хронологическая шкала"
+      "en": "Timeline",
+      "ru": "Хронология"
+  },
+  "body": {
+      "en": "Yo!  This project was created to document the formation and development of Russian-speaking hip-hop. You can go through key places, find a lot of new things for yourself, and also see a timeline of important events. <br> <br> We clearly missed a lot of important things, but you can help us! Send your request and we will add it to the site.",
+      "ru": "Йоу!  Этот проект сделан чтобы задокументировать формирование и развитие русско-говорящего хип хопа. Ты можешь пройтись по ключевым местам, найти для себя много нового, а также посмотреть таймлайн из важных событий. <br><br> Мы явно много чего упустили значимого, но ты можешь нам помочь! Отправь заявку и мы добавим её на сайт."
+  },
+  "request": {
+      "en": "Send Request",
+      "ru": "Отправить правку"
+  },
+  "sources": {
+      "en": "Sources",
+      "ru": "Ссылки"
   }
 
 }

@@ -6,32 +6,45 @@
     <title>Russian-Speaking Hip Hop Map</title>
     <link rel="stylesheet" href="reset.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Comforter+Brush&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.css" />
+
     <link rel="stylesheet" href="styles.css">
    
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+
+    
+
 </head>
 <body>
 
-    <div id="popup" class="popup-overlay">
+    <!-- <div id="popup" class="popup-overlay">
         <div class="popup-content">
           <span class="close-button">&times;</span>
           <h2>Welcome to Our Website!</h2>
           <p>This is your first visit. Enjoy your stay!</p>
         </div>
-      </div>
+      </div> -->
       
 
     <div class="nav-bar">
-        <a href="#" id="title" onclick="showMap()">Interactive Map</a>
-        <a href="#" id="timelineTitle"onclick="showTimeline()">Chronological Timeline</a>
+        <a href="#" id="title" onclick="showMap()">Карта хип-хопа</a>
+        <a href="#" id="timelineTitle"onclick="showTimeline()">Хронология</a>
+        <iframe class="spotify" src="https://open.spotify.com/embed/track/0BmBWpZ1obsPKGCT8azVAs?utm_source=generator&theme=0"  frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
-        <div class="language-switch">
-            <button id="languageToggle" onclick="toggleLanguage()">English</button>
-        </div>
+        <!-- <div id="embed-iframe" class="spotify"></div> -->
+
+
+    </div>
+    <div class="language-switch">
+        <button id="languageToggle" onclick="toggleLanguage()">English</button>
     </div>
 
 
@@ -44,18 +57,18 @@
 
     <div id="timeline" class="timeline" style="display: none;">
         <div class="timeline-line"></div>
-        <!-- Timeline items will be added dynamically from JSON -->
+        Coming soon...
     </div>
 
-    <div class="body-paragraph">
+    <div class="body-paragraph" id="body">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi diam nulla, porttitor et nisl quis, feugiat ultrices eros. Etiam ultricies nisl ut urna luctus euismod. Etiam vitae dolor eleifend, pulvinar lacus a, malesuada nulla. Curabitur egestas pellentesque massa nec luctus. Pellentesque sodales molestie venenatis. Fusce venenatis, urna at tincidunt tincidunt, tellus tortor ultricies nunc, id aliquet erat nisi at augue. Mauris lobortis ex turpis, at fermentum lacus ullamcorper eu. Nam est mauris, blandit eu sapien a, mollis consectetur massa. Praesent quis sapien dignissim, scelerisque nisi id, consequat lorem. Pellentesque accumsan justo diam, eget pretium augue convallis ac. Morbi posuere eleifend est at elementum. Pellentesque enim odio, hendrerit et varius id, porta eu ex. Integer ac nunc quis urna volutpat feugiat vel ut felis.
 
 Sed sit amet iaculis ipsum. Vestibulum tincidunt arcu vel sollicitudin aliquam. Etiam quis nulla at velit dapibus scelerisque. Praesent eu nisl faucibus, commodo erat sit amet, feugiat justo. Sed porta orci at erat vehicula, sed malesuada est hendrerit. Ut eu mauris nunc. Donec in nisl vulputate, fringilla nisi ac, vestibulum eros. Etiam vehicula lacus vitae nisl auctor, ut fermentum velit maximus. Donec vitae tincidunt magna. Aenean dapibus, lectus venenatis rhoncus posuere, augue felis gravida libero, ac rhoncus libero dui et turpis. Sed vitae pretium purus.
     </div>
 
     <div class="buttons">
-        <div class="button request">Send Request</div>
-        <div class="button sources">Sources</div>
+        <a href="mailto:nsmelkov@scu.edu"><div class="button request" id="request">Send Request</div></a>
+        <div class="button sources" id="sources">Sources</div>
     </div>
 
     <div class="footer">
