@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Russian Hip-Hop History Timeline</title>
+  <!-- Import Montserrat for a modern, clean look -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles: disable vertical scrolling */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #f0f0f0;
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 20px;
+      font-size: 2.5rem;
+      background: #0d0d0d;
+      border-bottom: 1px solid #222;
+      position: relative;
+      z-index: 10;
+    }
+    
+    /* Timeline Container: full viewport height, horizontal scrolling only */
+    .timeline-container {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden; /* Disable vertical scrolling */
+      height: 100vh;    /* Use the full viewport height */
+      padding: 20px;
+      scroll-snap-type: x mandatory;
+    }
+    .timeline-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Inner container expands to fit all timeline items */
+    .timeline-inner {
+      position: relative;
+      display: inline-block;
+      width: max-content;
+      height: 100%;
+    }
+    
+    /* Timeline line: drawn at 45% of viewport height */
+    .timeline-inner::before {
+      content: "";
+      position: absolute;
+      top: 45vh;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #e60073, #ff8a00);
+      z-index: 1;
+    }
+    
+    /* Each timeline item occupies the full container height */
+    .timeline-item {
+      display: inline-block;
+      position: relative;
+      width: 250px;   /* reduced width */
+      height: 100%;   /* 100vh */
+      margin: 0 15px; /* reduced horizontal margin */
+      scroll-snap-align: start;
+    }
+    
+    /* The timeline dot is centered in each timeline item */
+    .timeline-dot {
+      position: absolute;
+      top: 45vh;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 16px;
+      height: 16px;
+      background: #ff8a00;
+      border: 4px solid #0d0d0d;
+      border-radius: 50%;
+      z-index: 2;
+    }
+    
+    /* Timeline Card: made smaller so that even expanded cards fit */
+    .timeline-card {
+      position: absolute;
+      width: 200px;      /* reduced width */
+      background: #1a1a1a;
+      padding: 10px;     /* reduced padding */
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      box-sizing: border-box;
+    }
+    
+    /* For top events:
+       We want the card's bottom edge to align at (45vh – 10px) from the viewport top.
+       Since the timeline item is 100vh high, setting its bottom property works:
+       bottom = 100vh – (45vh – 10px) = 55vh + 10px. */
+    .timeline-item.top .timeline-card {
+      bottom: calc(55vh + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* For bottom events:
+       We want the card's top edge to be at 45vh + 10px. */
+    .timeline-item.bottom .timeline-card {
+      top: calc(45vh + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* Card Content Styling */
+    .timeline-card img {
+      width: 100%;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .timeline-card .year {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #ff8a00;
+    }
+    .timeline-card .title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    
+    /* Hide extra content (description and source) by default */
+    .extra-content {
+      display: none;
+      margin-top: 8px;
+    }
+    .timeline-card .description {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    .timeline-card a {
+      color: #e60073;
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: inline-block;
+      margin-top: 4px;
+    }
+    .timeline-card a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Style for the toggle button */
+    .toggle-button {
+      background: #e60073;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .toggle-button:hover {
+      background: #ff8a00;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">Russian Hip-Hop History Timeline</div>
+  
+  <!-- Horizontal Timeline Container -->
+  <div class="timeline-container">
+    <div class="timeline-inner" id="timeline-inner">
+      <!-- Timeline items (cards with dots) will be injected here -->
+    </div>
+  </div>
+  
+  <script>
+    // Adjust card position if its edges fall outside the viewport.
+    function adjustCardPosition(card, item) {
+      const cardRect = card.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      // For bottom cards: if the bottom edge is below the viewport...
+      if (item.classList.contains('bottom')) {
+        if (cardRect.bottom > viewportHeight) {
+          let overflow = cardRect.bottom - viewportHeight;
+          // Get the current numeric top value
+          let computedTop = parseFloat(getComputedStyle(card).top);
+          // Adjust top upward so the bottom edge lines up with viewport bottom minus a 5px margin.
+          card.style.top = (computedTop - overflow - 5) + "px";
+        }
+      }
+      // For top cards: if the top edge is above the viewport...
+      if (item.classList.contains('top')) {
+        if (cardRect.top < 0) {
+          let overflow = 0 - cardRect.top;
+          let computedBottom = parseFloat(getComputedStyle(card).bottom);
+          card.style.bottom = (computedBottom - overflow - 5) + "px";
+        }
+      }
+    }
+    
+    // Fetch and render timeline events from events.json
+    async function loadTimeline() {
+      try {
+        const response = await fetch('events.json');
+        if (!response.ok) {
+          throw new Error('Failed to fetch events data');
+        }
+        let events = await response.json();
+        if (!Array.isArray(events)) {
+          events = [events];
+        }
+        // Sort events chronologically (from earliest to latest)
+        events.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        const timelineInner = document.getElementById('timeline-inner');
+        
+        events.forEach((event, index) => {
+          // Create the timeline item container.
+          // Alternate vertical position: even-index events are "top", odd-index events are "bottom".
+          const item = document.createElement('div');
+          item.className = 'timeline-item ' + (index % 2 === 0 ? 'top' : 'bottom');
+          
+          // Create the event card.
+          const card = document.createElement('div');
+          card.className = 'timeline-card';
+          
+          // Add album cover image if available.
+          if (event.album_cover) {
+            const img = document.createElement('img');
+            img.src = event.album_cover;
+            img.alt = event.title_en;
+            card.appendChild(img);
+          }
+          
+          // Add event year.
+          const yearDiv = document.createElement('div');
+          yearDiv.className = 'year';
+          yearDiv.textContent = event.year;
+          card.appendChild(yearDiv);
+          
+          // Add event title.
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'title';
+          titleDiv.textContent = event.title_en;
+          card.appendChild(titleDiv);
+          
+          // Create a toggle button.
+          const toggleButton = document.createElement('button');
+          toggleButton.className = 'toggle-button';
+          toggleButton.textContent = 'Read More';
+          card.appendChild(toggleButton);
+          
+          // Create a container for the extra content (description and source).
+          const extraContent = document.createElement('div');
+          extraContent.className = 'extra-content';
+          
+          // Add event description.
+          const descDiv = document.createElement('div');
+          descDiv.className = 'description';
+          descDiv.textContent = event.description_en;
+          extraContent.appendChild(descDiv);
+          
+          // Add source link (if provided).
+          if (event.source && event.source.length >= 2) {
+            const linkEl = document.createElement('a');
+            linkEl.href = event.source[1];
+            linkEl.target = '_blank';
+            linkEl.textContent = event.source[0]; // e.g., "wikipedia"
+            extraContent.appendChild(linkEl);
+          }
+          
+          // Append the extra content to the card.
+          card.appendChild(extraContent);
+          
+          // Toggle extra content visibility when the button is clicked.
+          toggleButton.addEventListener('click', () => {
+            if (extraContent.style.display === 'none' || extraContent.style.display === '') {
+              extraContent.style.display = 'block';
+              toggleButton.textContent = 'Show Less';
+            } else {
+              extraContent.style.display = 'none';
+              toggleButton.textContent = 'Read More';
+            }
+            // After toggling, adjust the card position if needed.
+            adjustCardPosition(card, item);
+          });
+          
+          // Append the card into the timeline item.
+          item.appendChild(card);
+          
+          // Add the timeline dot.
+          const dot = document.createElement('div');
+          dot.className = 'timeline-dot';
+          item.appendChild(dot);
+          
+          // Append the item to the inner container.
+          timelineInner.appendChild(item);
+        });
+      } catch (error) {
+        console.error('Error loading timeline:', error);
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadTimeline);
+  </script>
+</body>
+</html>

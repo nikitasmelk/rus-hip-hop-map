@@ -1,0 +1,139 @@
+/* Timeline Container: full viewport height, horizontal scrolling only */
+.timeline-container {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden; /* Disable vertical scrolling */
+  height: 100vh;    /* Use the full viewport height */
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+}
+.timeline-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Inner container expands to fit all timeline items */
+.timeline-inner {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  height: 100%;
+}
+
+/* Timeline line: drawn at 45% of viewport height */
+.timeline-inner::before {
+  content: "";
+  position: absolute;
+  top: 45vh;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #e60073, #ff8a00);
+  z-index: 1;
+}
+
+/* Each timeline item occupies the full container height */
+.timeline-item {
+  display: inline-block;
+  position: relative;
+  width: 250px;   /* reduced width */
+  height: 100%;   /* 100vh */
+  margin: 0 15px; /* reduced horizontal margin */
+  scroll-snap-align: start;
+}
+
+/* The timeline dot is centered in each timeline item */
+.timeline-dot {
+  position: absolute;
+  top: 45vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: #ff8a00;
+  border: 4px solid #0d0d0d;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Timeline Card: made smaller so that even expanded cards fit */
+.timeline-card {
+  position: absolute;
+  width: 200px;      /* reduced width */
+  background: #1a1a1a;
+  padding: 10px;     /* reduced padding */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-sizing: border-box;
+}
+
+/* For top events:
+   We want the card's bottom edge to align at (45vh – 10px) from the viewport top.
+   Since the timeline item is 100vh high, setting its bottom property works:
+   bottom = 100vh – (45vh – 10px) = 55vh + 10px. */
+.timeline-item.top .timeline-card {
+  bottom: calc(55vh + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* For bottom events:
+   We want the card's top edge to be at 45vh + 10px. */
+.timeline-item.bottom .timeline-card {
+  top: calc(45vh + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Card Content Styling */
+.timeline-card img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  display: block;
+}
+.timeline-card .year {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #ff8a00;
+}
+.timeline-card .title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* Hide extra content (description and source) by default */
+.extra-content {
+  display: none;
+  margin-top: 8px;
+}
+.timeline-card .description {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.timeline-card a {
+  color: #e60073;
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-top: 4px;
+}
+.timeline-card a:hover {
+  text-decoration: underline;
+}
+
+/* Style for the toggle button */
+.toggle-button {
+  background: #e60073;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.toggle-button:hover {
+  background: #ff8a00;
+}

@@ -111,6 +111,126 @@ fetch('events.json')
         //updateMapAndTimeline();
     });
 
+
+
+
+//RANDOM BUTTON SCRIPT
+// Define a custom control for the random marker button using a PNG image
+var RandomControl = L.Control.extend({
+    options: {
+        position: 'bottomright' // Position the control in the bottom right
+    },
+    onAdd: function (map) {
+        // Create a container div for the control
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control random-button');
+
+        // Prevent clicks on the control from propagating to the map
+        L.DomEvent.disableClickPropagation(container);
+
+        // Create an image element and set its source to your PNG file
+        var img = L.DomUtil.create('img', '', container);
+        img.src = 'random-icon.png';  // Replace with the correct path to your PNG file
+
+        // Optionally, style the image dimensions as needed
+        img.style.width = '64px';  // adjust the width if needed
+        img.style.height = '64px'; // adjust the height if needed
+
+        // Set a title for the container (appears on hover)
+        container.title = 'Show a Random Marker';
+
+        // Add click event listener to the container
+        L.DomEvent.on(container, 'click', function (e) {
+            // Ensure there is at least one marker in the markers array
+            if (!markers.length) return;
+            
+            // Pick a random marker from your markers array
+            var randomIndex = Math.floor(Math.random() * markers.length);
+            var randomMarker = markers[randomIndex];
+
+            // Pan the map to the marker's location and set the zoom level
+            map.setView(randomMarker.getLatLng(), 16);
+
+            // Open the marker's popup
+            randomMarker.openPopup();
+        });
+
+        return container;
+    }
+});
+
+// Add the custom control to your map
+map.addControl(new RandomControl());
+
+//SEARCH BAR
+// Define your highlighted icon
+var MarkerHighlight = L.icon({
+    iconUrl: 'highlight.png', // Path to your highlighted marker image
+    iconSize: [48, 48],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
+});
+
+// Create the search control and add it to the map
+var SearchControl = L.Control.extend({
+    options: {
+        position: 'topleft'
+    },
+    onAdd: function (map) {
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control search-control');
+        container.style.backgroundColor = 'white';
+        container.style.padding = '5px';
+        
+        var input = L.DomUtil.create('input', '', container);
+        input.type = 'text';
+        input.placeholder = 'Search Artist';
+        input.style.border = 'none';
+        input.style.outline = 'none';
+
+        L.DomEvent.disableClickPropagation(container);
+        L.DomEvent.on(input, 'keyup', function () {
+            searchMarkers(input.value);
+        });
+
+        return container;
+    }
+});
+map.addControl(new SearchControl());
+
+// Define the search function that highlights markers based on the artist array
+function searchMarkers(query) {
+    query = query.toLowerCase().trim();
+    markers.forEach(function(marker, i) {
+        var event = events[i];
+        // Retrieve both the English and Russian artist arrays
+        var artistsEn = event.artist_en || [];
+        var artistsRu = event.artist_ru || [];
+        
+        // Combine both arrays into one
+        var combinedArtists = artistsEn.concat(artistsRu);
+        
+        // Check if any artist in the combined array contains the query substring
+        var matchFound = combinedArtists.some(function(artistName) {
+            return artistName.toLowerCase().includes(query);
+        });
+        
+        var defaultIcon = Marker1;
+        if (event.marker) {
+            defaultIcon = eval(event.marker);
+        }
+        if (query && matchFound) {
+            marker.setIcon(MarkerHighlight);
+        } else {
+            marker.setIcon(defaultIcon);
+        }
+    });
+}
+
+
+
+
+
+
+
 function renderMapEvents() {
     events.forEach(function(event) {
         // console.log(event);
